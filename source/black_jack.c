@@ -80,17 +80,17 @@ int game_start(int* Dealer_Card, int* Player_Card)
     int HS, Cnt = 2, D_sum = 0, P_sum = 0;
     int game_set = -1;
 
-    printf("Black Jack Start!\n");
+    printf("\n\nBlack Jack Start!\n\n");
 
     // Player Trun
 
-    printf("Player Card Open!\n");
+    printf("\n\nPlayer Card Open!\n\n");
     P_sum += print_card(Player_Card, &i, &A_p);
     P_sum += print_card(Player_Card, &i, &A_p);
 
     while(1)
     {
-        printf("\nHit(1) | Stay(2) :: ");
+        printf("\n\nHit(1) | Stay(2) :: ");
         scanf("%d", &HS);
 
         if(HS == 1) // hit
@@ -98,11 +98,14 @@ int game_start(int* Dealer_Card, int* Player_Card)
             for(int j=0; j < Cnt; ) print_card(Player_Card, &j, &gg);
 
             P_sum += print_card(Player_Card, &i, &A_p);
-            Cnt ++;
+            printf(" a:|%d| |%d| ", A_p, P_sum);
+            Cnt++;
 
-            if(A_p = 1 && P_sum > 21)
+            if(A_p == 1 && P_sum > 21)
             {
+                printf(" |%d| ", P_sum);
                 P_sum -= 10;
+                printf(" |%d| ", P_sum);
                 A_p = 0;
             }
             if(P_sum == 21)
@@ -113,11 +116,12 @@ int game_start(int* Dealer_Card, int* Player_Card)
             }
             if(P_sum > 21)
             {
+                printf(" |%d| ", P_sum);
                 game_set = -1;
                 break;
             }
         }
-        else break; // stay
+        else {break; }// stay
     }
 
     // Dealer Turn
@@ -126,7 +130,8 @@ int game_start(int* Dealer_Card, int* Player_Card)
     D_sum += print_card(Dealer_Card, &d, &A_d);
     D_sum += print_card(Dealer_Card, &d, &A_d);
 
-    if(D_sum < P_sum && P_sum <= 21)
+    // if(D_sum < P_sum && P_sum <= 21)
+    if (D_sum < 17)
     {
         D_sum += print_card(Dealer_Card, &d, &A_d);
         if(D_sum > 21) game_set = 1;
