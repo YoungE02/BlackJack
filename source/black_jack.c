@@ -1,45 +1,209 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
-int r;
-int end_num;
+void init(int* Card);
+int game_start(int* Dealer_Card, int* Player_Card);
+void game_end(int game_set);
+void set_card(int* Dealer_Card, int* Player_Card, int* Card);
+int print_card(int* Card, int* i, int* A_p);
 
-void start();
-void end();
-int ran();
-
-void main()
+int main()
 {
-    start();
-    printf("%d", r);
-}
+    int Card[52];
+    int Dealer_Card[10], Player_Card[10];
+    int game_set = 0, i = 0;
 
-void start()
-{
-    ran();
-}
-
-int ran()
-{
-    srand(time(NULL));
-    r = rand() % 13; // 1~13까지의 랜덤수 r에 입력
-
-    return r;
-}
-
-void end()
-{
-    switch(end_num)
+    while(1)
     {
+        init(Card);
+        set_card(Dealer_Card, Player_Card, Card);
+        game_set = game_start(Dealer_Card, Player_Card);
+        game_end(game_set);
+
+        printf("\n\nOne More 1 / Game Exit 2 :: ");
+        scanf("%d", &i);
+
+        if (i == 2)
+        {
+            printf("Thanks.\n");
+            break;
+        }
+        else if (i != 1)
+        {
+            printf("reTry.\n");
+            printf("\n\nOne More 1 / Game Exit 2 :: ");
+            scanf("%d", &i);
+        }
+        
+        system("cls");
+    }
+}
+
+void init(int* Card)
+{
+    int w = 0, r = 0;
+    int swit[52];
+
+    for(int i = 0; i < 52; i++)
+    {
+        swit[i] = 0;
+    }
+
+    srand(time(NULL));
+    while(w < 52)
+    {
+        r = rand() % 52;
+        if (swit[r] == 0)
+        {
+            swit[r] = 1;
+            Card[w] = r + 1;
+            w++;
+        }
+    }
+}
+
+void set_card(int* Dealer_Card, int* Player_Card, int* Card)
+{
+    for(int i = 0; i < 10; i++)
+    {
+        Dealer_Card[i] = Card[i];
+        Player_Card[i] = Card[i + 10];
+    }
+}
+
+int game_start(int* Dealer_Card, int* Player_Card)
+{
+    int i = 0, d = 0;
+    int A_p = 0, A_d = 0, gg = 0; // A있으면 1 없으면 0
+    int HS, Cnt = 2, D_sum = 0, P_sum = 0;
+    int game_set = -1;
+
+    printf("Black Jack Start!\n");
+
+    // Player Trun
+
+    printf("Player Card Open!\n");
+    P_sum += print_card(Player_Card, &i, &A_p);
+    P_sum += print_card(Player_Card, &i, &A_p);
+
+    while(1)
+    {
+        printf("\nHit(1) | Stay(2) :: ");
+        scanf("%d", &HS);
+
+        if(HS == 1) // hit
+        {
+            for(int j=0; j < Cnt; ) print_card(Player_Card, &j, &gg);
+
+            P_sum += print_card(Player_Card, &i, &A_p);
+            Cnt ++;
+
+            if(A_p = 1 && P_sum > 21)
+            {
+                P_sum -= 10;
+                A_p = 0;
+            }
+            if(P_sum == 21)
+            {
+                game_set = 1;
+                printf("\n\n\t|Player Black Jack!|\t\n\n");
+                break;
+            }
+            if(P_sum > 21)
+            {
+                game_set = -1;
+                break;
+            }
+        }
+        else break; // stay
+    }
+
+    // Dealer Turn
+
+    printf("\n\n\nDealer Card Open!\n");
+    D_sum += print_card(Dealer_Card, &d, &A_d);
+    D_sum += print_card(Dealer_Card, &d, &A_d);
+
+    if(D_sum < P_sum && P_sum <= 21)
+    {
+        D_sum += print_card(Dealer_Card, &d, &A_d);
+        if(D_sum > 21) game_set = 1;
+    }
+    if(A_d == 1 && D_sum > 21)
+    {
+        D_sum -= 10;
+        A_d == 0;
+    }
+    if(D_sum == 21)
+    {
+        printf("\n\n\t|Dealer Black Jack!|\t\n\n");
+        game_set = -1;
+    }
+
+    if(P_sum == D_sum) game_set = 0;
+    if(P_sum > D_sum && P_sum <= 21) game_set = 1;
+
+    return game_set;
+}
+
+int print_card(int* Card, int* i, int* A_p)
+{
+    int pattern, num, Snum;
+
+    pattern = (Card[*i] - 1) / 13;
+
+    switch (pattern)
+    {
+        case 0:
+            printf("스페이드");
+            break;
         case 1:
-            printf("승리");
+            printf("다이아");
             break;
         case 2:
-            printf("버스트!");
+            printf("하트");
             break;
         case 3:
-            printf("패배");
+            printf("클로버");
             break;
     }
+
+    num = (Card[*i] - 1) % 13;
+
+    switch (num)
+    {
+        case 0:
+            printf("A \t");
+            Snum = 11;
+            *A_p = 1;
+            break;
+        case 10:
+            printf("J \t");
+            Snum = 10;
+            break;
+        case 11:
+            printf("Q \t");
+            Snum = 10;
+            break;
+        case 12:
+            printf("K \t");
+            Snum = 10;
+            break;
+        default:
+            printf("%d \t", num + 1);
+            Snum = num + 1;
+    }
+
+    *i = *i + 1;
+
+    return Snum;
+}
+
+void game_end(int game_set)
+{
+    if(game_set == 1) printf("\n\n\t|Player Win!|\t\n\n");
+    else if(game_set == -1) printf("\n\n\t|Player Lose!|\t\n\n");
+    else printf("\n\n\t|Drow!|\t\n\n");
 }
