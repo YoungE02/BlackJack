@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <windows.h>
 
 void init(int* Card);
 int game_start(int* Dealer_Card, int* Player_Card);
@@ -11,6 +12,7 @@ int print_card(int* Card, int* i, int* A_p);
 
 int main()
 {
+    system("cls");
     int Card[52];
     int Dealer_Card[10], Player_Card[10];
     int game_set = 0, i = 0;
@@ -80,75 +82,101 @@ int game_start(int* Dealer_Card, int* Player_Card)
     int HS, Cnt = 2, D_sum = 0, P_sum = 0;
     int game_set = -1;
 
-    printf("\n\nBlack Jack Start!\n\n");
+    printf("Black Jack Start!\n\n");
 
     // Player Trun
 
     printf("\n\nPlayer Card Open!\n\n");
     P_sum += print_card(Player_Card, &i, &A_p);
     P_sum += print_card(Player_Card, &i, &A_p);
+    
+    if(A_p == 0) printf("\n\nPlayer Card Sum : %d", P_sum);
+    else if(P_sum > 21) printf("\n\nPlayer Card Sum : %d", P_sum - 10);
 
-    while(1)
+
+    if(P_sum == 21)
+    {
+        printf("\n\n///////////////////////\n/Player Black Jack!!!!/\n///////////////////////");
+        game_set = 1;
+        return game_set;
+    }
+
+    while(game_set != 1)
     {
         printf("\n\nHit(1) | Stay(2) :: ");
         scanf("%d", &HS);
+        printf("\n");
 
         if(HS == 1) // hit
         {
             for(int j=0; j < Cnt; ) print_card(Player_Card, &j, &gg);
 
             P_sum += print_card(Player_Card, &i, &A_p);
-            printf(" a:|%d| |%d| ", A_p, P_sum);
             Cnt++;
 
-            if(A_p == 1 && P_sum > 21)
+            if(A_p != 0 && P_sum > 21)
             {
-                printf(" |%d| ", P_sum);
                 P_sum -= 10;
-                printf(" |%d| ", P_sum);
-                A_p = 0;
+                A_p -= 1;
             }
-            if(P_sum == 21)
-            {
-                game_set = 1;
-                printf("\n\n\t|Player Black Jack!|\t\n\n");
-                break;
-            }
+            if(P_sum == 21) game_set = 1;
             if(P_sum > 21)
             {
-                printf(" |%d| ", P_sum);
-                game_set = -1;
-                break;
+                printf("\n\nPlayer Card Sum : %d", P_sum);
+                game_set = -2;
+                return game_set;
             }
+            printf("\n\nPlayer Card Sum : %d", P_sum);
         }
         else {break; }// stay
     }
 
+    Sleep(1000);
+
     // Dealer Turn
 
-    printf("\n\n\nDealer Card Open!\n");
+    printf("\n\nDealer Card Open!\n\n");
+
+    Sleep(1000);
+
     D_sum += print_card(Dealer_Card, &d, &A_d);
     D_sum += print_card(Dealer_Card, &d, &A_d);
 
-    // if(D_sum < P_sum && P_sum <= 21)
+    Sleep(1000);
+
+    if(D_sum == 21)
+    {
+        printf("\n\n//////////////////////////\n/Dealer Black Jack!!!!\n//////////////////////////");
+        game_set = 1;
+        return game_set;
+    }
+
     if (D_sum < 17)
     {
         D_sum += print_card(Dealer_Card, &d, &A_d);
         if(D_sum > 21) game_set = 1;
     }
-    if(A_d == 1 && D_sum > 21)
+    if(D_sum > 21)
     {
-        D_sum -= 10;
-        A_d == 0;
-    }
-    if(D_sum == 21)
-    {
-        printf("\n\n\t|Dealer Black Jack!|\t\n\n");
-        game_set = -1;
+        if(A_d == 1)
+        {
+            D_sum -= 10;
+            A_d == 0;
+        }
+        else
+        {
+            game_set = 2;
+            printf("\n\nDealer Card Sum : %d", D_sum);
+            return game_set;
+        }
     }
 
+    if(D_sum == 21) game_set = -1;
+
+    printf("\n\nDealer Card Sum : %d", D_sum);
+
     if(P_sum == D_sum) game_set = 0;
-    if(P_sum > D_sum && P_sum <= 21) game_set = 1;
+    if(P_sum > D_sum) game_set = 1;
 
     return game_set;
 }
@@ -162,16 +190,16 @@ int print_card(int* Card, int* i, int* A_p)
     switch (pattern)
     {
         case 0:
-            printf("스페이드");
+            printf("♠ ");
             break;
         case 1:
-            printf("다이아");
+            printf("◆ ");
             break;
         case 2:
-            printf("하트");
+            printf("♥ ");
             break;
         case 3:
-            printf("클로버");
+            printf("♣ ");
             break;
     }
 
@@ -182,7 +210,7 @@ int print_card(int* Card, int* i, int* A_p)
         case 0:
             printf("A \t");
             Snum = 11;
-            *A_p = 1;
+            *A_p += 1;
             break;
         case 10:
             printf("J \t");
@@ -209,6 +237,9 @@ int print_card(int* Card, int* i, int* A_p)
 void game_end(int game_set)
 {
     if(game_set == 1) printf("\n\n\t|Player Win!|\t\n\n");
+    else if(game_set == 2) printf("\n\n\t|Dealer Bust!|\t\n\n");
     else if(game_set == -1) printf("\n\n\t|Player Lose!|\t\n\n");
+    else if(game_set == -2) printf("\n\n\t|Player Bust!|\t\n\n");
+
     else printf("\n\n\t|Drow!|\t\n\n");
 }
