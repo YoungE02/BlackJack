@@ -151,30 +151,28 @@ int game_start(int* Dealer_Card, int* Player_Card)
         return game_set;
     }
 
-    if (D_sum < 17)
+    while(D_sum < 17)
     {
         D_sum += print_card(Dealer_Card, &d, &A_d);
-        if(D_sum > 21) game_set = 1;
-    }
-    if(D_sum > 21)
-    {
-        if(A_d == 1)
+        if(D_sum > 21)
         {
-            D_sum -= 10;
-            A_d == 0;
-        }
-        else
-        {
-            game_set = 2;
-            printf("\n\nDealer Card Sum : %d", D_sum);
-            return game_set;
+            if(A_d > 0)
+            {
+                D_sum -= 10;
+                A_d -= 1;
+            }
+            else 
+            {
+                game_set = 2;
+                printf("\n\nDealer Card Sum : %d", D_sum);
+                return game_set;
+            }
         }
     }
-
-    if(D_sum == 21) game_set = -1;
 
     printf("\n\nDealer Card Sum : %d", D_sum);
 
+    if(P_sum != 21 && D_sum == 21) game_set = -1;
     if(P_sum == D_sum) game_set = 0;
     if(P_sum > D_sum) game_set = 1;
 
@@ -236,10 +234,10 @@ int print_card(int* Card, int* i, int* A_p)
 
 void game_end(int game_set)
 {
-    if(game_set == 1) printf("\n\n\t|Player Win!|\t\n\n");
-    else if(game_set == 2) printf("\n\n\t|Dealer Bust!|\t\n\n");
-    else if(game_set == -1) printf("\n\n\t|Player Lose!|\t\n\n");
-    else if(game_set == -2) printf("\n\n\t|Player Bust!|\t\n\n");
+    if(game_set == 1) printf("\n\n\t|Player Win!|\n\n");
+    else if(game_set == 2) printf("\n\n\t|Dealer Bust!|\n\n\t|Player Win!|\n\n");
+    else if(game_set == -1) printf("\n\n\t|Player Lose!|\n\n");
+    else if(game_set == -2) printf("\n\n\t|Player Bust!|\n\n");
 
     else printf("\n\n\t|Drow!|\t\n\n");
 }
