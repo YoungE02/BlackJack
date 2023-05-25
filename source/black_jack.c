@@ -114,7 +114,7 @@ int game_start(int* Dealer_Card, int* Player_Card)
             P_sum += print_card(Player_Card, &i, &A_p);
             Cnt++;
 
-            if(A_p != 0 && P_sum > 21)
+            if(A_p > 0 && P_sum > 21)
             {
                 P_sum -= 10;
                 A_p -= 1;
@@ -128,7 +128,7 @@ int game_start(int* Dealer_Card, int* Player_Card)
             }
             printf("\n\nPlayer Card Sum : %d", P_sum);
         }
-        else {break; }// stay
+        else break; // stay
     }
 
     Sleep(1000);
@@ -228,17 +228,19 @@ int print_card(int* Card, int* i, int* A_p)
             Snum = num + 1;
     }
 
-    *i = *i + 1;
+    *i += 1;
 
     return Snum;
 }
 
 void game_end(int game_set)
 {
+    // ½Â¸®
     if(game_set == 1) printf("\n\n\t|Player Win!|\n\n");
     else if(game_set == 2) printf("\n\n\t|Dealer Bust!|\n\n\t|Player Win!|\n\n");
+    //ÆÐ¹è
     else if(game_set == -1) printf("\n\n\t|Player Lose!|\n\n");
-    else if(game_set == -2) printf("\n\n\t|Player Bust!|\n\n");
-
+    else if(game_set == -2) printf("\n\n\t|Player Bust!|\n\n\t|Player Lose!|\n\n");
+    //¹«½ÂºÎ
     else printf("\n\n\t|Drow!|\t\n\n");
 }
