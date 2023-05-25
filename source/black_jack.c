@@ -90,7 +90,7 @@ int game_start(int* Dealer_Card, int* Player_Card)
     P_sum += print_card(Player_Card, &i, &A_p);
     P_sum += print_card(Player_Card, &i, &A_p);
     
-    if(A_p == 0) printf("\n\nPlayer Card Sum : %d", P_sum);
+    if(A_p == 0 || P_sum <= 21) printf("\n\nPlayer Card Sum : %d", P_sum);
     else if(P_sum > 21) printf("\n\nPlayer Card Sum : %d", P_sum - 10);
 
 
@@ -146,14 +146,15 @@ int game_start(int* Dealer_Card, int* Player_Card)
 
     if(D_sum == 21)
     {
-        printf("\n\n//////////////////////////\n/Dealer Black Jack!!!!\n//////////////////////////");
-        game_set = 1;
+        printf("\n\n///////////////////////\n/Dealer Black Jack!!!!/\n///////////////////////");
+        game_set = -1;
         return game_set;
     }
 
     while(D_sum < 17)
     {
         D_sum += print_card(Dealer_Card, &d, &A_d);
+        Sleep(1000);
         if(D_sum > 21)
         {
             if(A_d > 0)
