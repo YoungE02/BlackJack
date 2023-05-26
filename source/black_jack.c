@@ -4,11 +4,18 @@
 #include <string.h>
 #include <windows.h>
 
+void save(char* filename);
+void load(char* filename);
+
 void init(int* Card);
 int game_start(int* Dealer_Card, int* Player_Card);
 void game_end(int game_set);
 void set_card(int* Dealer_Card, int* Player_Card, int* Card);
 int print_card(int* Card, int* i, int* A_p);
+
+int Score = 300;
+int batting_gold = 0;
+char name[20], number[20];
 
 int main()
 {
@@ -16,6 +23,26 @@ int main()
     int Card[52];
     int Dealer_Card[10], Player_Card[10];
     int game_set = 0, i = 0;
+
+    char filename[20];
+    char txt[5];
+
+
+    // Player name/number check
+    printf("학번 이름 입력 (30111 안홍헌) :: ");
+    scanf("%s", filename);
+    strcpy(name, filename);
+    printf("상품수령을 위한 전화번호 입력 :: ");
+    scanf("%s", number);
+
+    strcpy(txt, ".txt");
+    strcat(filename, txt);
+
+    // 베팅
+    while (batting_gold < 100 || batting_gold > Score)
+    {
+        printf("100<");
+    }
 
     while(1)
     {
@@ -41,6 +68,46 @@ int main()
         
         system("cls");
     }
+}
+
+void save(char* filename)
+{
+    FILE* file;
+    file = fopen(filename, "w");
+
+    if(file == NULL)
+    {
+        printf("file write fail\n");
+        exit(1);
+    }
+
+    fprintf(file, "%d %s %s\n", Score, name, number);
+    fclose(file);
+}
+
+void load(char* filename)
+{
+    int flag = 0;
+    FILE* file;
+
+    file = fopen(filename, "r");
+    if(file ==NULL)
+    {
+        printf("저장되어있는 정보 없음\n");
+        printf("새로 시작 (1) | 종료 (2) :: ");
+        scanf("%d", &flag);
+
+        if(flag == 1)
+        {
+            file = fopen(filename, "w");
+            fprintf("file, %d %s %s\n", Score, name, number);
+        }
+        else exit(1);
+    }
+
+    fscanf(file, "%d %s %s\n", &Score, name, number);
+    fclose(file);
+    system("cls");
 }
 
 void init(int* Card)
@@ -82,7 +149,7 @@ int game_start(int* Dealer_Card, int* Player_Card)
     int HS, Cnt = 2, D_sum = 0, P_sum = 0;
     int game_set = -1;
 
-    printf("Black Jack Start!\n\n");
+    printf("\n\tBlack Jack!\n\n");
 
     // Player Trun
 
@@ -97,11 +164,11 @@ int game_start(int* Dealer_Card, int* Player_Card)
     if(P_sum == 21)
     {
         printf("\n\n///////////////////////\n/Player Black Jack!!!!/\n///////////////////////");
-        game_set = 1;
+        game_set = 3;
         return game_set;
     }
 
-    while(game_set != 1)
+    while(game_set != 1) // 21되면 선택없이 딜러턴
     {
         printf("\n\nHit(1) | Stay(2) :: ");
         scanf("%d", &HS);
@@ -173,7 +240,7 @@ int game_start(int* Dealer_Card, int* Player_Card)
 
     printf("\n\nDealer Card Sum : %d", D_sum);
 
-    if(P_sum != 21 && D_sum == 21) game_set = -1;
+    if(P_sum < D_sum == 21) game_set = -1;
     if(P_sum == D_sum) game_set = 0;
     if(P_sum > D_sum) game_set = 1;
 
@@ -235,12 +302,38 @@ int print_card(int* Card, int* i, int* A_p)
 
 void game_end(int game_set)
 {
-    // 승리
-    if(game_set == 1) printf("\n\n\t|Player Win!|\n\n");
-    else if(game_set == 2) printf("\n\n\t|Dealer Bust!|\n\n\t|Player Win!|\n\n");
-    //패배
-    else if(game_set == -1) printf("\n\n\t|Player Lose!|\n\n");
-    else if(game_set == -2) printf("\n\n\t|Player Bust!|\n\n\t|Player Lose!|\n\n");
-    //무승부
-    else printf("\n\n\t|Drow!|\t\n\n");
+    switch(game_set)
+    {
+        case -2:
+        {
+            printf("\n\n\t|Player Bust!|\n\n");
+            printf("\t|Player Lose!|\n\n");
+            Score -= batting_gold;
+        }
+        case -1:
+        {
+            printf("\n\n\t|Player Lose!|\n\n");
+            Score -= batting_gold;
+        }
+        case 0:
+        {
+            printf("\n\n\t|Draw!|\n\n");
+        }
+        case 1:
+        {
+            printf("\n\n\t|Player Win!|\n\n");
+            Score += batting_gold;
+        }
+        case 2:
+        {
+            printf("\n\n\t|Dealer Bust!|\n\n");
+            printf("\n\n\t|Player Win!|\n\n");
+            Score += batting_gold;
+        }
+        case 3:
+        {
+            printf("\n\n\t|Player Black Jack Win!|\n\n");
+            Score += batting_gold*1.5;
+        }
+    }
 }
