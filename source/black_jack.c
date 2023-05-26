@@ -29,6 +29,7 @@ int main()
 
 
     // Player name/number check
+    printf("#띄어쓰기 없이 입력#\n");
     printf("학번 이름 입력 (30111안홍헌) :: ");
     scanf("%s", filename);
     strcpy(name, filename);
@@ -50,6 +51,8 @@ int main()
             exit(1);
         }
         // 베팅
+
+        batting_gold = 0;
         while (batting_gold < 1 || batting_gold > Score)
         {
             printf("베팅 금액 (1 ~ %d) :: ", Score);
@@ -58,7 +61,7 @@ int main()
 
 
         printf("사용자 %s | 전화번호 %s \n", name, number);
-        printf("현재 금액  %d.\n\n", Score);
+        printf("현재 금액  %d\n\n", Score);
 
         init(Card);
         set_card(Dealer_Card, Player_Card, Card);
@@ -69,18 +72,20 @@ int main()
 
         printf("\n\nOne More 1 / Game Exit 2 :: ");
         scanf("%d", &i);
-
-        if (i == 2)
+        while(i != 1)
         {
-            printf("Thanks.\n");
-            save(filename);
-            break;
-        }
-        else if (i != 1)
-        {
-            printf("reTry.\n");
-            printf("\n\nOne More 1 / Game Exit 2 :: ");
-            scanf("%d", &i);
+            if (i == 2)
+            {
+                printf("Thanks.\n");
+                save(filename);
+                exit(0);
+            }
+            else if (i != 1)
+            {
+                printf("reTry.\n");
+                printf("\n\nOne More 1 / Game Exit 2 :: ");
+                scanf("%d", &i);
+            }
         }
 
         if (Score <= 0)
