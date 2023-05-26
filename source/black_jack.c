@@ -29,7 +29,7 @@ int main()
 
 
     // Player name/number check
-    printf("학번 이름 입력 (30111 안홍헌) :: ");
+    printf("학번 이름 입력 (30111안홍헌) :: ");
     scanf("%s", filename);
     strcpy(name, filename);
     printf("상품수령을 위한 전화번호 입력 :: ");
@@ -38,18 +38,34 @@ int main()
     strcpy(txt, ".txt");
     strcat(filename, txt);
 
-    // 베팅
-    while (batting_gold < 100 || batting_gold > Score)
-    {
-        printf("100<");
-    }
+    load(filename);
+
+    
 
     while(1)
     {
+        if (Score <= 0)
+        {
+            printf("남은 금액이 없어 진행 할 수 없습니다.");
+            exit(1);
+        }
+        // 베팅
+        while (batting_gold < 1 || batting_gold > Score)
+        {
+            printf("베팅 금액 (1 ~ %d) :: ", Score);
+            scanf("%d", &batting_gold);
+        }
+
+
+        printf("사용자 %s | 전화번호 %s \n", name, number);
+        printf("현재 금액  %d.\n\n", Score);
+
         init(Card);
         set_card(Dealer_Card, Player_Card, Card);
         game_set = game_start(Dealer_Card, Player_Card);
+        Sleep(1000);
         game_end(game_set);
+        save(filename);
 
         printf("\n\nOne More 1 / Game Exit 2 :: ");
         scanf("%d", &i);
@@ -57,6 +73,7 @@ int main()
         if (i == 2)
         {
             printf("Thanks.\n");
+            save(filename);
             break;
         }
         else if (i != 1)
@@ -64,6 +81,12 @@ int main()
             printf("reTry.\n");
             printf("\n\nOne More 1 / Game Exit 2 :: ");
             scanf("%d", &i);
+        }
+
+        if (Score <= 0)
+        {
+            printf("남은 금액이 없어 진행 할 수 없습니다.");
+            exit(1);
         }
         
         system("cls");
@@ -78,6 +101,7 @@ void save(char* filename)
     if(file == NULL)
     {
         printf("file write fail\n");
+        Sleep(1000);
         exit(1);
     }
 
@@ -91,16 +115,17 @@ void load(char* filename)
     FILE* file;
 
     file = fopen(filename, "r");
-    if(file ==NULL)
+    if(file == NULL)
     {
         printf("저장되어있는 정보 없음\n");
+        Sleep(1000);
         printf("새로 시작 (1) | 종료 (2) :: ");
         scanf("%d", &flag);
 
         if(flag == 1)
         {
             file = fopen(filename, "w");
-            fprintf("file, %d %s %s\n", Score, name, number);
+            fprintf(file, "%d %s %s\n", Score, name, number);
         }
         else exit(1);
     }
@@ -309,31 +334,37 @@ void game_end(int game_set)
             printf("\n\n\t|Player Bust!|\n\n");
             printf("\t|Player Lose!|\n\n");
             Score -= batting_gold;
+            break;
         }
         case -1:
         {
             printf("\n\n\t|Player Lose!|\n\n");
             Score -= batting_gold;
+            break;
         }
         case 0:
         {
             printf("\n\n\t|Draw!|\n\n");
+            break;
         }
         case 1:
         {
             printf("\n\n\t|Player Win!|\n\n");
             Score += batting_gold;
+            break;
         }
         case 2:
         {
             printf("\n\n\t|Dealer Bust!|\n\n");
             printf("\n\n\t|Player Win!|\n\n");
             Score += batting_gold;
+            break;
         }
         case 3:
         {
             printf("\n\n\t|Player Black Jack Win!|\n\n");
             Score += batting_gold*1.5;
+            break;
         }
     }
 }
