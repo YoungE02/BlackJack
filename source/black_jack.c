@@ -250,6 +250,12 @@ int game_start(int* Dealer_Card, int* Player_Card)
         return game_set;
     }
 
+    if (A_d == 2)
+    {
+        D_sum -= 10;
+        A_d -=1;
+    }
+    
     while(D_sum < 17)
     {
         D_sum += print_card(Dealer_Card, &d, &A_d);
@@ -272,7 +278,7 @@ int game_start(int* Dealer_Card, int* Player_Card)
 
     printf("\n\nDealer Card Sum : %d", D_sum);
 
-    if(P_sum < D_sum == 21) game_set = -1;
+    if(P_sum < D_sum) game_set = -1;
     if(P_sum == D_sum) game_set = 0;
     if(P_sum > D_sum) game_set = 1;
 
