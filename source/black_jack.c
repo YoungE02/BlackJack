@@ -22,7 +22,8 @@ int main()
     system("cls");
     int Card[52];
     int Dealer_Card[10], Player_Card[10];
-    int game_set = 0, i = 0;
+    int game_set = 0;
+    char i;
 
     char filename[20];
     char txt[5];
@@ -71,20 +72,20 @@ int main()
         save(filename);
 
         printf("\n\nOne More 1 / Game Exit 2 :: ");
-        scanf("%d", &i);
-        while(i != 1)
+        scanf("%s", &i);
+        while(i != '1')
         {
-            if (i == 2)
+            if (i == '2')
             {
                 printf("Thanks.\n");
                 save(filename);
                 exit(0);
             }
-            else if (i != 1)
+            else if (i != '1')
             {
                 printf("reTry.\n");
                 printf("\n\nOne More 1 / Game Exit 2 :: ");
-                scanf("%d", &i);
+                scanf("%s", &i);
             }
         }
 
@@ -176,7 +177,8 @@ int game_start(int* Dealer_Card, int* Player_Card)
 {
     int i = 0, d = 0;
     int A_p = 0, A_d = 0, gg = 0; // A있으면 1 없으면 0
-    int HS, Cnt = 2, D_sum = 0, P_sum = 0;
+    char HS;
+    int Cnt = 2, D_sum = 0, P_sum = 0;
     int game_set = -1;
 
     printf("\n\tBlack Jack!\n\n");
@@ -201,10 +203,10 @@ int game_start(int* Dealer_Card, int* Player_Card)
     while(game_set != 1) // 21되면 선택없이 딜러턴
     {
         printf("\n\nHit(1) | Stay(2) :: ");
-        scanf("%d", &HS);
+        scanf("%s", &HS);
         printf("\n");
 
-        if(HS == 1) // hit
+        if(HS == '1') // hit
         {
             for(int j=0; j < Cnt; ) print_card(Player_Card, &j, &gg);
 
