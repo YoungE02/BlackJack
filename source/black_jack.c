@@ -291,19 +291,28 @@ int print_card(int* Card, int* i, int* A_p)
 
     pattern = (Card[*i] - 1) / 13;
 
+    // ¦¡	¦¬	¦¢	¦­	?	?	?	?	?	?	?	?	¦£	¦È	¦Ç	¦®
+	// ¦¤	¦Â	¦Á	¦¯	¦¦	¦Æ	¦Å	¦±	¦¥	¦Ä	¦Ã	¦°	¦§	¦¼	¦É	¦Ê
+	// ¦·	¦Ë	¦Ì	¦²	¦©	¦¾	¦Í	¦Î	¦¹	¦Ï	¦Ð	¦´	¦¨	¦Ñ	¦Ò	¦¸
+	// ¦½	¦Ó	¦Ô	¦³	¦ª	¦Õ	¦Ö	¦º	¦¿	¦×	¦Ø	¦µ	¦«	¦Ù	")
+    printf("\n");
+    printf("¦£¦¡¦¡¦¡¦¡¦¡¦¤\n");
+    printf("¦¢     ¦¢\n");
+
+
     switch (pattern)
     {
         case 0:
-            printf("¢¼ ");
+            printf("¦¢ ¢¼ ");
             break;
         case 1:
-            printf("¡ß ");
+            printf("¦¢ ¡ß ");
             break;
         case 2:
-            printf("¢¾ ");
+            printf("¦¢ ¢¾ ");
             break;
         case 3:
-            printf("¢À ");
+            printf("¦¢ ¢À ");
             break;
     }
 
@@ -312,26 +321,32 @@ int print_card(int* Card, int* i, int* A_p)
     switch (num)
     {
         case 0:
-            printf("A \t");
+            printf("A ¦¢\t");
             Snum = 11;
             *A_p += 1;
             break;
         case 10:
-            printf("J \t");
+            printf("J ¦¢\t");
             Snum = 10;
             break;
         case 11:
-            printf("Q \t");
+            printf("Q ¦¢\t");
             Snum = 10;
             break;
         case 12:
-            printf("K \t");
+            printf("K ¦¢\t");
             Snum = 10;
             break;
         default:
-            printf("%d \t", num + 1);
+            printf("%d ¦¢\t", num + 1);
             Snum = num + 1;
     }
+    
+    printf("\n");
+    printf("¦¢     ¦¢\n");
+    printf("¦¦¦¡¦¡¦¡¦¡¦¡¦¥\n");
+
+
 
     *i += 1;
 
