@@ -296,8 +296,8 @@ int print_card(int* Card, int* i, int* A_p)
 	// 朵	竹	米	曳	扣	汙	糸	缶	此	羊	羽	朽	成	老	考	次
 	// 汗	而	耒	有	扛	耳	聿	死	江	肉	肋	朴	托	肌	")
     printf("\n");
-    printf("忙式式式式式忖\n");
-    printf("弛     弛\n");
+    printf("忙式式式式式式忖\n");
+    printf("弛      弛\n");
 
 
     switch (pattern)
@@ -321,30 +321,30 @@ int print_card(int* Card, int* i, int* A_p)
     switch (num)
     {
         case 0:
-            printf("A 弛\t");
+            printf(" A 弛\t");
             Snum = 11;
             *A_p += 1;
             break;
         case 10:
-            printf("J 弛\t");
+            printf(" J 弛\t");
             Snum = 10;
             break;
         case 11:
-            printf("Q 弛\t");
+            printf(" Q 弛\t");
             Snum = 10;
             break;
         case 12:
-            printf("K 弛\t");
+            printf(" K 弛\t");
             Snum = 10;
             break;
         default:
-            printf("%d 弛\t", num + 1);
+            printf("%2d 弛\t", num + 1);
             Snum = num + 1;
     }
-    
+
     printf("\n");
-    printf("弛     弛\n");
-    printf("戌式式式式式戎\n");
+    printf("弛      弛\n");
+    printf("戌式式式式式式戎\n");
 
 
 
