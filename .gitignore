@@ -1,3 +1,6 @@
 # 깃에 업로드하지않을 파일
 *.json
 *.txt
+/add/
+/helloworld/
+/helloworldcpp/
