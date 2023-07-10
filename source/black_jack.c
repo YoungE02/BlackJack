@@ -15,7 +15,7 @@ int print_card(int* Card, int* i, int* A_p);
 
 int Score = 300;
 int batting_gold = 0;
-char name[20], number[20];
+char name[20];
 
 int main()
 {
@@ -34,8 +34,6 @@ int main()
     printf("학번 이름 입력 (ex:30111안홍헌) :: ");
     scanf("%s", filename);
     strcpy(name, filename);
-    printf("상품수령을 위한 전화번호 입력 :: ");
-    scanf("%s", number);
 
     strcpy(txt, ".txt");
     strcat(filename, txt);
@@ -61,7 +59,7 @@ int main()
         }
 
 
-        printf("사용자 %s | 전화번호 %s \n", name, number);
+        printf("사용자 %s\n", name);
         printf("현재 금액  %d\n\n", Score);
 
         init(Card);
@@ -111,7 +109,7 @@ void save(char* filename)
         exit(1);
     }
 
-    fprintf(file, "%d %s %s\n", Score, name, number);
+    fprintf(file, "%d %s\n", Score, name);
     fclose(file);
 }
 
@@ -131,12 +129,12 @@ void load(char* filename)
         if(flag == 1)
         {
             file = fopen(filename, "w");
-            fprintf(file, "%d %s %s\n", Score, name, number);
+            fprintf(file, "%d %s\n", Score, name);
         }
         else exit(1);
     }
 
-    fscanf(file, "%d %s %s\n", &Score, name, number);
+    fscanf(file, "%d %s\n", &Score, name);
     fclose(file);
     system("cls");
 }
