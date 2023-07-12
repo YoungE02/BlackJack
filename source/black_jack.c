@@ -30,8 +30,8 @@ int main()
 
 
     // Player name/number check
-    printf("#¶ç¾î¾²±â ¾øÀÌ ÀÔ·Â#\n");
-    printf("ÇĞ¹ø ÀÌ¸§ ÀÔ·Â (ex:30111¾ÈÈ«Çå) :: ");
+    printf("#ë„ì–´ì“°ê¸° ì—†ì´ ì…ë ¥#\n");
+    printf("í•™ë²ˆ ì´ë¦„ ì…ë ¥ (ex:30111ì•ˆí™í—Œ) :: ");
     scanf("%s", filename);
     strcpy(name, filename);
 
@@ -46,21 +46,21 @@ int main()
     {
         if (Score <= 0)
         {
-            printf("³²Àº ±İ¾×ÀÌ ¾ø¾î ÁøÇà ÇÒ ¼ö ¾ø½À´Ï´Ù.");
+            printf("ë‚¨ì€ ê¸ˆì•¡ì´ ì—†ì–´ ì§„í–‰ í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             exit(1);
         }
-        // º£ÆÃ
+        // ë² íŒ…
 
         batting_gold = 0;
         while (batting_gold < 1 || batting_gold > Score)
         {
-            printf("º£ÆÃ ±İ¾× (1 ~ %d) :: ", Score);
+            printf("ë² íŒ… ê¸ˆì•¡ (1 ~ %d) :: ", Score);
             scanf("%d", &batting_gold);
         }
 
 
-        printf("»ç¿ëÀÚ %s\n", name);
-        printf("ÇöÀç ±İ¾×  %d\n\n", Score);
+        printf("ì‚¬ìš©ì %s\n", name);
+        printf("í˜„ì¬ ê¸ˆì•¡  %d\n\n", Score);
 
         init(Card);
         set_card(Dealer_Card, Player_Card, Card);
@@ -89,7 +89,7 @@ int main()
 
         if (Score <= 0)
         {
-            printf("³²Àº ±İ¾×ÀÌ ¾ø¾î ÁøÇà ÇÒ ¼ö ¾ø½À´Ï´Ù.");
+            printf("ë‚¨ì€ ê¸ˆì•¡ì´ ì—†ì–´ ì§„í–‰ í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             exit(1);
         }
         
@@ -100,7 +100,7 @@ int main()
 void save(char* filename)
 {
     FILE* file;
-    file = fopen(filename, "w");
+    file = fopen(C:\\Program File\\bj\\filename, "w");
 
     if(file == NULL)
     {
@@ -121,14 +121,14 @@ void load(char* filename)
     file = fopen(filename, "r");
     if(file == NULL)
     {
-        printf("ÀúÀåµÇ¾îÀÖ´Â Á¤º¸ ¾øÀ½\n");
+        printf("ì €ì¥ë˜ì–´ìˆëŠ” ì •ë³´ ì—†ìŒ\n");
         Sleep(1000);
-        printf("»õ·Î ½ÃÀÛ (1) | Á¾·á (2) :: ");
+        printf("ìƒˆë¡œ ì‹œì‘ (1) | ì¢…ë£Œ (2) :: ");
         scanf("%d", &flag);
 
         if(flag == 1)
         {
-            file = fopen(filename, "w");
+            file = fopen(C:\\Program File\\bj\\filename, "w");
             fprintf(file, "%d %s\n", Score, name);
         }
         else exit(1);
@@ -174,7 +174,7 @@ void set_card(int* Dealer_Card, int* Player_Card, int* Card)
 int game_start(int* Dealer_Card, int* Player_Card)
 {
     int i = 0, d = 0;
-    int A_p = 0, A_d = 0, gg = 0; // AÀÖÀ¸¸é 1 ¾øÀ¸¸é 0
+    int A_p = 0, A_d = 0, gg = 0; // Aìˆìœ¼ë©´ 1 ì—†ìœ¼ë©´ 0
     char HS;
     int Cnt = 2, D_sum = 0, P_sum = 0;
     int game_set = -1;
@@ -198,7 +198,7 @@ int game_start(int* Dealer_Card, int* Player_Card)
         return game_set;
     }
 
-    while(game_set != 1) // 21µÇ¸é ¼±ÅÃ¾øÀÌ µô·¯ÅÏ
+    while(game_set != 1) // 21ë˜ë©´ ì„ íƒì—†ì´ ë”œëŸ¬í„´
     {
         printf("\n\nHit(1) | Stay(2) :: ");
         scanf("%s", &HS);
@@ -289,30 +289,30 @@ int print_card(int* Card, int* i, int* A_p)
 
     pattern = (Card[*i] - 1) / 13;
 
-    // ¦¡	¦¬	¦¢	¦­	?	?	?	?	?	?	?	?	¦£	¦È	¦Ç	¦®
-	// ¦¤	¦Â	¦Á	¦¯	¦¦	¦Æ	¦Å	¦±	¦¥	¦Ä	¦Ã	¦°	¦§	¦¼	¦É	¦Ê
-	// ¦·	¦Ë	¦Ì	¦²	¦©	¦¾	¦Í	¦Î	¦¹	¦Ï	¦Ğ	¦´	¦¨	¦Ñ	¦Ò	¦¸
-	// ¦½	¦Ó	¦Ô	¦³	¦ª	¦Õ	¦Ö	¦º	¦¿	¦×	¦Ø	¦µ	¦«	¦Ù	")
+    // â”€	â”	â”‚	â”ƒ	?	?	?	?	?	?	?	?	â”Œ	â”	â”	â”
+	// â”	â”‘	â”’	â”“	â””	â”•	â”–	â”—	â”˜	â”™	â”š	â”›	â”œ	â”	â”	â”Ÿ
+	// â” 	â”¡	â”¢	â”£	â”¤	â”¥	â”¦	â”§	â”¨	â”©	â”ª	â”«	â”¬	â”­	â”®	â”¯
+	// â”°	â”±	â”²	â”³	â”´	â”µ	â”¶	â”·	â”¸	â”¹	â”º	â”»	â”¼	â”½	")
     printf("\n");
-    printf("¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤\n");
-    printf("¦¢       ¦¢\n");
-    printf("¦¢       ¦¢\n");
+    printf("â”Œâ”€â”€â”€â”€â”€â”€â”€â”\n");
+    printf("â”‚       â”‚\n");
+    printf("â”‚       â”‚\n");
 
 
 
     switch (pattern)
     {
         case 0:
-            printf("¦¢ ¢¼ ");
+            printf("â”‚ â™  ");
             break;
         case 1:
-            printf("¦¢ ¡ß ");
+            printf("â”‚ â—† ");
             break;
         case 2:
-            printf("¦¢ ¢¾ ");
+            printf("â”‚ â™¥ ");
             break;
         case 3:
-            printf("¦¢ ¢À ");
+            printf("â”‚ â™£ ");
             break;
     }
 
@@ -321,31 +321,31 @@ int print_card(int* Card, int* i, int* A_p)
     switch (num)
     {
         case 0:
-            printf(" A ¦¢\t");
+            printf(" A â”‚\t");
             Snum = 11;
             *A_p += 1;
             break;
         case 10:
-            printf(" J ¦¢\t");
+            printf(" J â”‚\t");
             Snum = 10;
             break;
         case 11:
-            printf(" Q ¦¢\t");
+            printf(" Q â”‚\t");
             Snum = 10;
             break;
         case 12:
-            printf(" K ¦¢\t");
+            printf(" K â”‚\t");
             Snum = 10;
             break;
         default:
-            printf("%2d ¦¢\t", num + 1);
+            printf("%2d â”‚\t", num + 1);
             Snum = num + 1;
     }
 
     printf("\n");
-    printf("¦¢       ¦¢\n");
-    printf("¦¢       ¦¢\n");
-    printf("¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥\n");
+    printf("â”‚       â”‚\n");
+    printf("â”‚       â”‚\n");
+    printf("â””â”€â”€â”€â”€â”€â”€â”€â”˜\n");
 
 
 
