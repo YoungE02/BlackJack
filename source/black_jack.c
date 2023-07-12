@@ -100,7 +100,7 @@ int main()
 void save(char* filename)
 {
     FILE* file;
-    file = fopen(C:\\Program File\\bj\\filename, "w");
+    file = fopen(filename, "w");
 
     if(file == NULL)
     {
@@ -128,7 +128,7 @@ void load(char* filename)
 
         if(flag == 1)
         {
-            file = fopen(C:\\Program File\\bj\\filename, "w");
+            file = fopen(filename, "w");
             fprintf(file, "%d %s\n", Score, name);
         }
         else exit(1);
